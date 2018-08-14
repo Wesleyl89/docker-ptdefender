@@ -18,5 +18,5 @@ RUN gdebi -n ptdefender.deb \
       && rm ptdefender.deb \
       && apt-get -y autoremove
 
-VOLUME ["/opt/PTDefender"]
+VOLUME ["/headless/.config/PTDefender"]
 EXPOSE 6901
