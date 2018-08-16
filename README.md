@@ -1,8 +1,7 @@
 # docker-ptdefender
 
 ```console
-docker run -d -p 5901:5901 -p 6901:6901 --name ptdefender but4ler/docker-ptdefender
-docker run -d -p 5901:5901 -p 6901:6901 -v ${PATH_PROFIT_TRAILER}:/mnt --name ptdefender ptdefender
+docker run -d -p 6901:6901 -v ./${PATH_PROFIT_TRAILER}:/mnt/profittrailer -v ./ptdefender:/headless/.config/PTDefender --name ptdefender ptdefender
 ```
 
 # Connect & Control
@@ -17,13 +16,13 @@ If the container is started like mentioned above, connect via one of these optio
 vncpassword
 
 # Docker-compose
+File docker-compose.yml
 
 ```yml
 version: '3'
-
 services:
   pt01:
-    image: but4ler/profit-trailer:2.1.4
+    image: but4ler/profit-trailer:2.1.5
     restart: always
     volumes:
       - ./bot2:/app/ProfitTrailer
@@ -31,13 +30,20 @@ services:
     ports:
       - "8081:8081/tcp"
     entrypoint: /entrypoint.sh
+    network_mode: host
 
   ptdefender01:
     image: but4ler/docker-ptdefender:1.11.1
     volumes:
-      - ./pt01:/headless/Desktop
+      - ./ptdefender:/headless/.config/PTDefender
+      - ./bot2:/mnt/profittrailer
     restart: always
     environment:
-      - "VNC_PW=my_pw"
+      - "VNC_PW=vncpassword"
+    network_mode: host
 
+```
+
+```console
+docker-compose up -d
 ```
