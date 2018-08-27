@@ -37,6 +37,8 @@ services:
     volumes:
       - ./ptdefender:/headless/.config/PTDefender
       - ./bot2:/mnt/profittrailer
+    ports:
+      - "6901:6901/tcp"
     restart: always
     environment:
       - "VNC_PW=vncpassword"
